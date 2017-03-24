@@ -6,8 +6,10 @@ app.get('/', function (req, res) {
   res.send('Hello World!')
 })
 
-app.post('/call', function (req, res) {
-  res.send('Callback')
+app.get('/call', function (req, res) {
+  console.log("new callback");
+  console.log(req.query.id, req.query.time, req.query.lat, req.query.lng);
+  res.send("OK")
 })
 
 
