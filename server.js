@@ -1,8 +1,8 @@
 var express = require('express');
 var app = express();
 var port = process.env.PORT || 5000;
-var redis = require("redis");
-var client = redis.createClient();
+// var redis = require("redis");
+// var client = redis.createClient();
 var bodyParser = require('body-parser');
 
 var trashcans = [
@@ -24,12 +24,12 @@ var trashcans = [
   }
 ];
 
-client.set("trashcans", JSON.stringify(trashcans));
+// client.set("trashcans", JSON.stringify(trashcans));
 
 
-client.on("error", function (err) {
-    console.log("Error " + err);
-});
+// client.on("error", function (err) {
+//    console.log("Error " + err);
+// });
 
 app.use(express.static('static'));
 app.use(bodyParser.urlencoded({
@@ -37,18 +37,13 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/', function (req, res) {
-  client.get("trashcans", function(err, reply) {
-      // reply is null when the key is missing
-      res.send(JSON.parse(reply))
-  });
+    res.send(JSON.parse(JSON.stringify(trashcans)))
 });
 
 app.post('/empty', function(req, res) {
   for (var i = 0; i < trashcans.length; i++) {
     if (trashcans[i].id === String(req.body.id)) {
-      console.log('empty');
       trashcans[i].status = "empty";
-      client.set("trashcans", JSON.stringify(trashcans));
     }
   }
   res.send('OK');
@@ -63,7 +58,6 @@ app.get('/call', function (req, res) {
       trashcans[i].lastCheck = req.query.time;
     }
   }
-  client.set("trashcans", JSON.stringify(trashcans));
   console.log(req.query.id, req.query.time, req.query.lat, req.query.lng);
   // 1CC3A6 1490367555 55.0 10.0
   res.send('OK');
