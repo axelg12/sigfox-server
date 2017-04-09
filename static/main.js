@@ -21,15 +21,17 @@ function checkSensors() {
     console.log('data', data.length, Object.keys(markers).length);
     for (var i = 0; i < data.length; i++) {
       if (Object.keys(markers).length < data.length) {
+        var empty = data[i].status === 'empty';
         markers[data[i].id] = map.addMarker({
           lat: data[i].lat,
           lng: data[i].lng,
           title: data[i].name,
-          icon: data[i].status === 'empty' ? 'https://www.google.com/mapfiles/marker_green.png' : '',
+          icon: empty ? 'https://www.google.com/mapfiles/marker_green.png' : '',
           infoWindow: {
             content:"<div class='marker'>" +
-                "ID:" + data[i].name +
-                "<div  onClick='emptyTrash(\x22"+data[i].id+"\x22)' class='clear'>Clear trash</div>" +
+                "<div>ID:" + data[i].name + "</div>" +
+                "<div>Last Check: " + new Date(data[i].lastCheck*1000).toString() + "</div>" +
+                "<div onClick='emptyTrash(\x22"+data[i].id+"\x22)' class='clear'>Clear trash</div>" +
               "</div>"
           }
         });
