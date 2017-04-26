@@ -3,8 +3,8 @@ var markers = {};
 $(document).ready(function(){
   map = new GMaps({
     el: '#map',
-    lng: 10.385417,
-    lat: 55.395425
+    lng: 10.430558,
+    lat: 55.374561
   });
   setInterval(checkSensors, 10000);
   checkSensors();
@@ -29,8 +29,8 @@ function checkSensors() {
           icon: empty ? 'https://www.google.com/mapfiles/marker_green.png' : '',
           infoWindow: {
             content:"<div class='marker'>" +
-                "<div>ID:" + data[i].name + "</div>" +
-                "<div>Last Check: " + new Date(data[i].lastCheck*1000).toString() + "</div>" +
+                "<div>ID:" + data[i].id + "</div>" +
+                "<div>Last Checked: " + new Date(data[i].lastCheck*1000).toString() + "</div>" +
                 "<div onClick='emptyTrash(\x22"+data[i].id+"\x22)' class='clear'>Clear trash</div>" +
               "</div>"
           }
